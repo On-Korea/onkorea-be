@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: "onkorea-be"
+
+  profiles:
+    active: local
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3309}/${DB_NAME:onkorea_db}?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:my_root_password}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            # Google Cloud Console에서 OAuth 2.0 클라이언트 ID 발급 필요
+            # https://console.cloud.google.com/apis/credentials
+            # 승인된 리디렉션 URI: http://localhost:8080/login/oauth2/code/google
+            client-id: ${GOOGLE_CLIENT_ID:YOUR_GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET:YOUR_GOOGLE_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
+
+  jpa:
+    hibernate:
+      # create: 매번 테이블 재생성 (개발 초기)
+      # update: 변경사항만 반영 (개발/테스트)
+      # validate: 스키마 검증만 (운영)
+      # none: 아무것도 안함 (운영 권장)
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+springdoc:
+  override-with-generic-response: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  show-javadoc: true
+  swagger-ui:
+    doc-expansion: list
+    enabled: true
+    operations-sorter: method
+    path: "/swagger.html"
+    tags-sorter: alpha
+  api-docs:
+    enabled: true
+    path: "/v3/api-docs"
+
+swagger:
+  servers:
+    - url: http://localhost:8080
+      description: Local Server
+
+jwt:
+  secret: ${JWT_SECRET:your-secret-key-for-jwt-token-generation-must-be-at-least-256-bits-long}
+  expiration: 86400000  # 24시간 (밀리초)
