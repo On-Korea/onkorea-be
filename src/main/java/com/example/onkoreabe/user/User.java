@@ -30,15 +30,15 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    // 나중에 회원가입 시 사용자가 입력 (nullable)
+    // 회원가입 시 사용자가 입력 (nullable)
     @Column(nullable = true)
     private String language;
 
-    // 나중에 회원가입 시 사용자가 입력 (nullable)
+    // 회원가입 시 사용자가 입력 (nullable)
     @Column(nullable = true)
     private LocalDate birthday;
 
-    // 로그인 방식 (EMAIL, GOOGLE, APPLE, KAKAO, NAVER 등)
+    // 로그인 방식 (EMAIL, GOOGLE 등)
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private LoginType loginType;
