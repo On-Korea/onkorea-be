@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: "onkorea-be"
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # RDS 엔드포인트로 변경 필요
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT:3306}/${DB_NAME:onkorea_db}?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
+            # 운영 환경 redirect URI (EC2 퍼블릭 IP 또는 도메인으로 변경)
+            redirect-uri: ${GOOGLE_REDIRECT_URI:http://localhost:8080/login/oauth2/code/google}
+
+  jpa:
+    hibernate:
+      # 운영에서는 validate 또는 none 사용 (DB 스키마 자동 변경 방지)
+      ddl-auto: validate
+    show-sql: false  # 운영에서는 SQL 로그 비활성화
+    properties:
+      hibernate:
+        format_sql: false
+
+  h2:
+    console:
+      enabled: false  # 운영에서는 H2 콘솔 비활성화
+
+springdoc:
+  override-with-generic-response: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  show-javadoc: true
+  swagger-ui:
+    doc-expansion: list
+    enabled: true  # 운영에서도 Swagger 활성화 (필요시 false로 변경)
+    operations-sorter: method
+    path: "/swagger.html"
+    tags-sorter: alpha
+  api-docs:
+    enabled: true
+    path: "/v3/api-docs"
+
+swagger:
+  servers:
+    # EC2 퍼블릭 IP 또는 도메인으로 변경
+    - url: ${SERVER_URL:http://localhost:8080}
+      description: Production Server
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000  # 24시간
+
+# 로깅 설정
+logging:
+  level:
+    root: INFO
+    com.example.onkoreabe: INFO
+  file:
+    name: /home/ubuntu/onkorea-be/logs/application.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+server:
+  port: 8080
