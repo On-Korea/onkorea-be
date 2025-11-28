@@ -36,7 +36,4 @@ public class DistrictScore {
 
     @Column(nullable = false)
     private Double score;  // 0.0 ~ 100.0
-
-    @Column(length = 500)
-    private String description;  // 점수 설명
 }
