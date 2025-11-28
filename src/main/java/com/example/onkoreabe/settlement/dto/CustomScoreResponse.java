@@ -1,7 +1,7 @@
 package com.example.onkoreabe.settlement.dto;
 
-import com.example.onkoreabe.settlement.SeoulDistrict;
-import com.example.onkoreabe.settlement.SettlementIndicator;
+import com.example.onkoreabe.settlement.score.entity.SeoulDistrict;
+import com.example.onkoreabe.settlement.score.entity.SettlementIndicator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
