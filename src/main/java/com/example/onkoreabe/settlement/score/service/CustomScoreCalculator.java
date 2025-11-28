@@ -1,8 +1,8 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.score.service;
 
+import com.example.onkoreabe.settlement.score.entity.SettlementIndicator;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,11 +88,22 @@ public class CustomScoreCalculator {
 
             // 주택: 인구 및 주택 수
             case TOTAL_POPULATION:
+            case KOREAN_POPULATION:
                 return normalizePopulation(rawValue);
+            case FOREIGN_POPULATION:
+                return normalizeForeignPopulation(rawValue);
+            case FOREIGN_HOUSEHOLDS:
+                return normalizeForeignHouseholds(rawValue);
             case TOTAL_HOUSES:
                 return normalizeHouseCount(rawValue);
+            case DETACHED_HOUSES:
+                return normalizeDetachedHouseCount(rawValue);
             case APARTMENTS:
                 return normalizeApartmentCount(rawValue);
+            case ROW_HOUSES:
+                return normalizeRowHouseCount(rawValue);
+            case MULTI_FAMILY_HOUSES:
+                return normalizeMultiFamilyHouseCount(rawValue);
             case MONTHLY_RENT_PRICE:
             case JEONSE_PRICE:
             case SALE_PRICE:
@@ -214,6 +225,33 @@ public class CustomScoreCalculator {
             // 1.0 초과시 감점 (1.10 이상이면 0점)
             return Math.max(0, 100 - ((relativePrice - 1.0) / 0.10 * 100));
         }
+    }
+
+    private double normalizeForeignPopulation(double population) {
+        // 외국인 수: 다양성 지표, 0~50000명 기준
+        // 많을수록 국제화되었다고 볼 수 있음
+        return Math.min(population / 50000 * 100, 100);
+    }
+
+    private double normalizeForeignHouseholds(double households) {
+        // 외국인 가구 수: 0~20000 기준
+        return Math.min(households / 20000 * 100, 100);
+    }
+
+    private double normalizeDetachedHouseCount(double count) {
+        // 단독주택 수: 0~25000개 기준
+        // 주거 다양성 지표로 활용
+        return Math.min(count / 25000 * 100, 100);
+    }
+
+    private double normalizeRowHouseCount(double count) {
+        // 연립주택 수: 0~10000개 기준
+        return Math.min(count / 10000 * 100, 100);
+    }
+
+    private double normalizeMultiFamilyHouseCount(double count) {
+        // 다세대주택 수: 0~75000개 기준
+        return Math.min(count / 75000 * 100, 100);
     }
 
     private double normalizeChildcareCount(double count) {

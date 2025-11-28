@@ -1,9 +1,16 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.score.service;
 
 import com.example.onkoreabe.settlement.dto.CategoryScoreDto;
 import com.example.onkoreabe.settlement.dto.CustomScoreResponse;
 import com.example.onkoreabe.settlement.dto.DistrictScoreResponse;
 import com.example.onkoreabe.settlement.dto.SettlementMapResponse;
+import com.example.onkoreabe.settlement.rawdata.entity.DistrictRawData;
+import com.example.onkoreabe.settlement.rawdata.repository.DistrictRawDataRepository;
+import com.example.onkoreabe.settlement.score.entity.DistrictScore;
+import com.example.onkoreabe.settlement.score.entity.ScoreCategory;
+import com.example.onkoreabe.settlement.score.entity.SeoulDistrict;
+import com.example.onkoreabe.settlement.score.entity.SettlementIndicator;
+import com.example.onkoreabe.settlement.score.repository.DistrictScoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -137,7 +144,6 @@ public class SettlementService {
                 .category(score.getCategory())
                 .categoryName(score.getCategory().getDisplayName())
                 .score(score.getScore())
-                .description(score.getDescription())
                 .build();
     }
 
@@ -149,7 +155,6 @@ public class SettlementService {
                 .category(category)
                 .categoryName(category.getDisplayName())
                 .score(0.0)
-                .description("데이터 없음")
                 .build();
     }
 

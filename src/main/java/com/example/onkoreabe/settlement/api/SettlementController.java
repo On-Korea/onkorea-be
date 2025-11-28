@@ -1,9 +1,13 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.api;
 
 import com.example.onkoreabe.settlement.dto.CustomScoreRequest;
 import com.example.onkoreabe.settlement.dto.CustomScoreResponse;
 import com.example.onkoreabe.settlement.dto.DistrictScoreResponse;
 import com.example.onkoreabe.settlement.dto.SettlementMapResponse;
+import com.example.onkoreabe.settlement.score.service.SettlementService;
+import com.example.onkoreabe.settlement.score.entity.ScoreCategory;
+import com.example.onkoreabe.settlement.score.entity.SeoulDistrict;
+import com.example.onkoreabe.settlement.score.entity.SettlementIndicator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

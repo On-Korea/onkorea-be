@@ -1,5 +1,8 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.rawdata.service;
 
+import com.example.onkoreabe.settlement.rawdata.entity.DistrictRawData;
+import com.example.onkoreabe.settlement.score.entity.SeoulDistrict;
+import com.example.onkoreabe.settlement.rawdata.repository.DistrictRawDataRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

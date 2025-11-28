@@ -1,4 +1,4 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.score.entity;
 
 /**
  * 정착난이도 스코어 카테고리

@@ -1,4 +1,4 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.score.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

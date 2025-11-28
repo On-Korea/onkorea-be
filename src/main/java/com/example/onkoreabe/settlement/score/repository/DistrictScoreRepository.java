@@ -1,5 +1,8 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.score.repository;
 
+import com.example.onkoreabe.settlement.score.entity.DistrictScore;
+import com.example.onkoreabe.settlement.score.entity.ScoreCategory;
+import com.example.onkoreabe.settlement.score.entity.SeoulDistrict;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

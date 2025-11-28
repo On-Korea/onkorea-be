@@ -1,4 +1,4 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.score.entity;
 
 /**
  * 서울특별시 자치구

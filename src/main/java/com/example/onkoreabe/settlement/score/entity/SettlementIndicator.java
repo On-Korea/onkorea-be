@@ -1,4 +1,4 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.score.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

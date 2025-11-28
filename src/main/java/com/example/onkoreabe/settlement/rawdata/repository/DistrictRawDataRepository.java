@@ -1,5 +1,7 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.rawdata.repository;
 
+import com.example.onkoreabe.settlement.rawdata.entity.DistrictRawData;
+import com.example.onkoreabe.settlement.score.entity.SeoulDistrict;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

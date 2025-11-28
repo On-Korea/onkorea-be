@@ -1,5 +1,6 @@
-package com.example.onkoreabe.settlement;
+package com.example.onkoreabe.settlement.rawdata.entity;
 
+import com.example.onkoreabe.settlement.score.entity.SeoulDistrict;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
