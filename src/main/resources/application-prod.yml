@@ -24,8 +24,8 @@ spring:
 
   jpa:
     hibernate:
-      # 운영에서는 validate 또는 none 사용 (DB 스키마 자동 변경 방지)
-      ddl-auto: validate
+      # 최초 배포: update로 테이블 자동 생성, 이후 validate로 변경 권장
+      ddl-auto: update
     show-sql: false  # 운영에서는 SQL 로그 비활성화
     properties:
       hibernate:
