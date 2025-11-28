@@ -17,8 +17,6 @@ spring:
       client:
         registration:
           google:
-            # Google Cloud Console에서 OAuth 2.0 클라이언트 ID 발급 필요
-            # https://console.cloud.google.com/apis/credentials
             # 승인된 리디렉션 URI: http://localhost:8080/login/oauth2/code/google
             client-id: ${GOOGLE_CLIENT_ID:YOUR_GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET:YOUR_GOOGLE_CLIENT_SECRET}
