@@ -1,5 +1,7 @@
 package com.example.onkoreabe.settlement;
 
+import com.example.onkoreabe.settlement.dto.CustomScoreRequest;
+import com.example.onkoreabe.settlement.dto.CustomScoreResponse;
 import com.example.onkoreabe.settlement.dto.DistrictScoreResponse;
 import com.example.onkoreabe.settlement.dto.SettlementMapResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -130,5 +132,53 @@ public class SettlementController {
     public ResponseEntity<SeoulDistrict[]> getDistricts() {
         log.info("자치구 목록 조회 요청");
         return ResponseEntity.ok(SeoulDistrict.values());
+    }
+
+    /**
+     * 사용 가능한 지표 목록 조회
+     */
+    @Operation(
+            summary = "지표 목록 조회",
+            description = "사용자 맞춤 점수 계산에 사용 가능한 모든 지표 목록을 조회합니다."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "조회 성공")
+    })
+    @GetMapping("/indicators")
+    public ResponseEntity<SettlementIndicator[]> getIndicators() {
+        log.info("지표 목록 조회 요청");
+        return ResponseEntity.ok(SettlementIndicator.values());
+    }
+
+    /**
+     * 사용자 맞춤 지표 선택으로 점수 계산
+     */
+    @Operation(
+            summary = "맞춤형 정착난이도 점수 계산",
+            description = "사용자가 선택한 지표들을 기반으로 자치구별 맞춤 점수를 계산합니다. " +
+                    "선택한 지표들에 동일한 가중치가 부여되며, 결측치는 0으로 처리됩니다."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "계산 성공",
+                    content = @Content(schema = @Schema(implementation = CustomScoreResponse.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청 (지표 미선택)", content = @Content),
+            @ApiResponse(responseCode = "401", description = "인증 실패", content = @Content),
+            @ApiResponse(responseCode = "500", description = "원시 데이터 없음 (CSV 임포트 필요)", content = @Content)
+    })
+    @PostMapping("/custom-score")
+    public ResponseEntity<CustomScoreResponse> calculateCustomScore(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "선택한 지표 목록",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = CustomScoreRequest.class))
+            )
+            @RequestBody CustomScoreRequest request
+    ) {
+        log.info("맞춤형 점수 계산 요청: indicators={}", request.getIndicators());
+        CustomScoreResponse response = settlementService.calculateCustomScore(request.getIndicators());
+        return ResponseEntity.ok(response);
     }
 }
