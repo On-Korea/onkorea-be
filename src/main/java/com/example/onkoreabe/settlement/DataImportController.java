@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import java.util.Map;
 public class DataImportController {
 
     private final CsvImportService csvImportService;
+    private final RawDataImportService rawDataImportService;
 
     /**
      * CSV 파일 업로드 및 데이터 임포트
