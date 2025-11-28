@@ -60,9 +60,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private LoginType convertToLoginType(String registrationId) {
         return switch (registrationId.toLowerCase()) {
             case "google" -> LoginType.GOOGLE;
-            case "kakao" -> LoginType.KAKAO;
-            case "naver" -> LoginType.NAVER;
-            case "apple" -> LoginType.APPLE;
             default -> {
                 log.warn("알 수 없는 OAuth2 제공자: {}", registrationId);
                 yield LoginType.GOOGLE; // 기본값
