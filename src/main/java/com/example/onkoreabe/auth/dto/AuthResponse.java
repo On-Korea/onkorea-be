@@ -20,6 +20,7 @@ public class AuthResponse {
     private String accessToken;
 
     @Schema(description = "토큰 타입", example = "Bearer")
+    @Builder.Default
     private String tokenType = "Bearer";
 
     @Schema(description = "사용자 ID", example = "1")
