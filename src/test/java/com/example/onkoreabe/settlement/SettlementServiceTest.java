@@ -2,6 +2,11 @@ package com.example.onkoreabe.settlement;
 
 import com.example.onkoreabe.settlement.dto.DistrictScoreResponse;
 import com.example.onkoreabe.settlement.dto.SettlementMapResponse;
+import com.example.onkoreabe.settlement.score.service.SettlementService;
+import com.example.onkoreabe.settlement.score.entity.DistrictScore;
+import com.example.onkoreabe.settlement.score.entity.ScoreCategory;
+import com.example.onkoreabe.settlement.score.entity.SeoulDistrict;
+import com.example.onkoreabe.settlement.score.repository.DistrictScoreRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,21 +44,18 @@ class SettlementServiceTest {
                         .district(SeoulDistrict.GANGNAM)
                         .category(ScoreCategory.HOUSING)
                         .score(85.5)
-                        .description("주거 환경이 매우 우수합니다")
                         .build(),
                 DistrictScore.builder()
                         .id(2L)
                         .district(SeoulDistrict.GANGNAM)
                         .category(ScoreCategory.EDUCATION)
                         .score(92.5)
-                        .description("교육 인프라가 매우 우수합니다")
                         .build(),
                 DistrictScore.builder()
                         .id(3L)
                         .district(SeoulDistrict.SONGPA)
                         .category(ScoreCategory.HOUSING)
                         .score(83.0)
-                        .description("신규 아파트 단지가 많습니다")
                         .build()
         );
     }
