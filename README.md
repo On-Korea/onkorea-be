@@ -1,33 +1,39 @@
 # OnKorea Backend
 
-Google OAuth2 인증과 Python AI 서버 연동 기능을 제공하는 Spring Boot 기반 백엔드 프로젝트입니다.
+서울시 외국인 정착 지원을 위한 정착난이도 스코어맵 서비스의 백엔드 API입니다.
 
 ## 기술 스택
 
 - **Java 17**
 - **Spring Boot 3.5.6**
-- **Spring Security + OAuth2**
+- **Spring Security + OAuth2 + JWT**
 - **Spring Data JPA**
 - **MySQL 8.0**
-- **WebClient (Reactive)**
 - **Lombok**
 - **Swagger/OpenAPI**
 
 ## 주요 기능
 
-### 1. Google OAuth2 소셜 로그인
-- Google 계정을 통한 사용자 인증
+### 1. 인증 시스템
+- **이메일/비밀번호 기반 회원가입 및 로그인**
+- **JWT 토큰 기반 인증**
+- Google OAuth2 소셜 로그인 지원
 - 신규 사용자 자동 가입
-- 기존 사용자 정보 업데이트
 
-### 2. AI 챗봇 API
-- Python FastAPI 서버와 연동
-- 비동기 통신 (WebClient)
-- 에러 핸들링 및 타임아웃 처리
-- 입력 검증
+### 2. 정착난이도 스코어맵 API
+- **서울시 25개 자치구별 정착난이도 점수 제공**
+- 6개 카테고리별 점수 (주택, 인구, 안전, 교육, 생활편의, 복지문화)
+- 사용자 맞춤형 지표 선택 및 점수 계산
+- CSV 데이터 기반 통계 정보 제공
 
-### 3. REST API
-- `/api/v1/chat` - AI 챗봇 엔드포인트
+### 3. 사용자 관리 API
+- 사용자 프로필 조회 및 수정
+- 언어 설정 및 생일 정보 관리
+
+### 4. REST API
+- `/api/v1/auth` - 인증 API
+- `/api/v1/settlement` - 정착난이도 스코어맵 API
+- `/api/v1/users` - 사용자 관리 API
 - Swagger UI 제공
 
 ## 환경 설정
@@ -39,19 +45,27 @@ Google OAuth2 인증과 Python AI 서버 연동 기능을 제공하는 Spring Bo
 #### 데이터베이스 설정
 ```bash
 export DB_HOST=localhost          # 기본값: localhost
-export DB_PORT=3306               # 기본값: 3306
+export DB_PORT=3309               # 기본값: 3309
 export DB_NAME=onkorea_db         # 기본값: onkorea_db
 export DB_USERNAME=root           # 기본값: root
-export DB_PASSWORD=your_password  # 기본값: 12345678
+export DB_PASSWORD=your_password  # 기본값: my_root_password
 ```
 
-#### Google OAuth2 설정
+#### JWT 설정
+```bash
+export JWT_SECRET=your-secret-key-for-jwt-token-generation-must-be-at-least-256-bits-long
+# JWT 토큰 만료 시간은 application.yml에서 설정 (기본값: 24시간)
+```
+
+#### Google OAuth2 설정 (선택사항)
 ```bash
 export GOOGLE_CLIENT_ID=your_google_client_id
 export GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
-### 2. Google OAuth2 자격증명 발급
+### 2. Google OAuth2 자격증명 발급 (선택사항)
+
+Google 소셜 로그인을 사용하려면 다음 단계를 따르세요:
 
 1. [Google Cloud Console](https://console.cloud.google.com/apis/credentials)에 접속
 2. 새 프로젝트 생성 (또는 기존 프로젝트 선택)
@@ -85,9 +99,12 @@ CREATE DATABASE onkorea_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ./gradlew clean build
 
 # 2. 환경변수 설정 후 실행
+export JWT_SECRET=your-secret-key-for-jwt-token-generation-must-be-at-least-256-bits-long
+export DB_PASSWORD=your_db_password
+
+# Google OAuth2 사용 시 (선택사항)
 export GOOGLE_CLIENT_ID=your_client_id
 export GOOGLE_CLIENT_SECRET=your_client_secret
-export DB_PASSWORD=your_db_password
 
 ./gradlew bootRun
 ```
@@ -95,11 +112,11 @@ export DB_PASSWORD=your_db_password
 ### Docker Compose 사용
 
 ```bash
-# 전체 서비스 실행 (Spring + Python AI + MySQL)
-docker-compose up -d
+# MySQL 데이터베이스 실행
+docker-compose up -d db
 
 # 로그 확인
-docker-compose logs -f spring-app
+docker-compose logs -f db
 ```
 
 ## API 문서
@@ -111,64 +128,136 @@ docker-compose logs -f spring-app
 
 ## 주요 엔드포인트
 
-### 인증
-- `GET /` - 로그인 페이지
-- `GET /oauth2/authorization/google` - Google 로그인 시작
-- `GET /loginsuccess` - 로그인 성공 페이지
-- `POST /logout` - 로그아웃
+### 인증 API (`/api/v1/auth`)
+- `POST /api/v1/auth/signup` - 이메일/비밀번호 회원가입
+- `POST /api/v1/auth/login` - 이메일/비밀번호 로그인
+- `GET /oauth2/authorization/google` - Google OAuth2 로그인 (선택사항)
 
-### AI 챗봇
-- `POST /api/v1/chat` - AI 질문 및 답변
-
-**요청 예시:**
+**회원가입 요청 예시:**
 ```json
 {
-  "question": "한국의 수도는 어디인가요?"
+  "email": "user@example.com",
+  "password": "password123",
+  "name": "홍길동"
 }
 ```
 
-**응답 예시:**
+**로그인 응답 예시:**
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "tokenType": "Bearer"
+}
 ```
-한국의 수도는 서울입니다.
+
+### 정착난이도 스코어맵 API (`/api/v1/settlement`)
+- `GET /api/v1/settlement` - 전체 자치구 점수 조회
+- `GET /api/v1/settlement/category/{category}` - 카테고리별 자치구 점수 조회
+- `GET /api/v1/settlement/district/{district}` - 특정 자치구 상세 점수 조회
+- `GET /api/v1/settlement/categories` - 사용 가능한 카테고리 목록 조회
+- `GET /api/v1/settlement/districts` - 서울시 25개 자치구 목록 조회
+- `GET /api/v1/settlement/indicators` - 지표 목록 조회
+- `POST /api/v1/settlement/custom-score` - 맞춤형 점수 계산
+
+**맞춤형 점수 계산 요청 예시:**
+```json
+{
+  "indicators": [
+    "HOUSING_PRICE",
+    "SAFETY_CRIME_RATE",
+    "EDUCATION_SCHOOL_COUNT"
+  ]
+}
+```
+
+### 사용자 관리 API (`/api/v1/users`)
+- `GET /api/v1/users/me` - 내 프로필 조회
+- `PATCH /api/v1/users/me/profile` - 내 프로필 수정
+
+**프로필 수정 요청 예시:**
+```json
+{
+  "language": "ko",
+  "birthday": "1990-01-01"
+}
 ```
 
 ## 프로젝트 구조
 
 ```
 src/main/java/com/example/onkoreabe/
-├── OnkoreaBeApplication.java          # 메인 애플리케이션
-├── IndexController.java                # 홈 컨트롤러
+├── OnkoreaBeApplication.java           # 메인 애플리케이션
 ├── auth/
-│   └── CustomOAuth2UserService.java   # OAuth2 사용자 서비스
-├── chat/
-│   ├── ChatController.java            # 채팅 API 컨트롤러
-│   ├── AiService.java                 # AI 서버 통신 서비스
+│   ├── AuthController.java            # 인증 API 컨트롤러
+│   ├── AuthService.java               # 인증 서비스
+│   ├── CustomOAuth2UserService.java   # OAuth2 사용자 서비스
+│   ├── jwt/
+│   │   ├── JwtTokenProvider.java      # JWT 토큰 생성/검증
+│   │   └── JwtAuthenticationFilter.java  # JWT 인증 필터
 │   └── dto/
-│       ├── ChatRequest.java           # 채팅 요청 DTO
-│       ├── AiApiRequest.java          # AI 요청 DTO
-│       └── AiApiResponse.java         # AI 응답 DTO
+│       ├── LoginRequest.java          # 로그인 요청 DTO
+│       ├── SignupRequest.java         # 회원가입 요청 DTO
+│       └── AuthResponse.java          # 인증 응답 DTO (토큰)
 ├── config/
 │   ├── SecurityConfig.java            # Spring Security 설정
-│   └── WebClientConfig.java           # WebClient 설정
-└── user/
-    ├── User.java                       # 사용자 엔티티
-    ├── Role.java                       # 권한 Enum
-    └── UserRepository.java             # 사용자 리포지토리
+│   └── SwaggerConfig.java             # Swagger 설정
+├── user/
+│   ├── User.java                      # 사용자 엔티티
+│   ├── Role.java                      # 권한 Enum
+│   ├── LoginType.java                 # 로그인 타입 Enum (EMAIL, GOOGLE)
+│   ├── UserRepository.java            # 사용자 리포지토리
+│   ├── UserService.java               # 사용자 서비스
+│   ├── UserController.java            # 사용자 API 컨트롤러
+│   └── dto/
+│       ├── UserResponse.java          # 사용자 응답 DTO
+│       └── ProfileUpdateRequest.java  # 프로필 수정 요청 DTO
+└── settlement/
+    ├── api/
+    │   └── SettlementController.java  # 정착난이도 API 컨트롤러
+    ├── dto/
+    │   ├── SettlementMapResponse.java # 전체 스코어맵 응답
+    │   ├── DistrictScoreResponse.java # 자치구 상세 점수 응답
+    │   ├── CategoryScoreDto.java      # 카테고리별 점수 DTO
+    │   ├── CustomScoreRequest.java    # 맞춤 점수 계산 요청
+    │   └── CustomScoreResponse.java   # 맞춤 점수 계산 응답
+    ├── score/
+    │   ├── entity/
+    │   │   ├── DistrictScore.java     # 자치구 점수 엔티티
+    │   │   ├── ScoreCategory.java     # 점수 카테고리 Enum
+    │   │   ├── SeoulDistrict.java     # 서울 자치구 Enum
+    │   │   └── SettlementIndicator.java  # 정착 지표 Enum
+    │   ├── repository/
+    │   │   └── DistrictScoreRepository.java
+    │   └── service/
+    │       ├── SettlementService.java    # 정착난이도 서비스
+    │       └── CustomScoreCalculator.java # 맞춤 점수 계산
+    └── rawdata/
+        ├── entity/
+        │   └── DistrictRawData.java   # 원시 데이터 엔티티
+        ├── repository/
+        │   └── DistrictRawDataRepository.java
+        └── service/
+            └── RawDataImportService.java  # CSV 데이터 임포트
 ```
 
 ## 보안 고려사항
 
 ### 현재 설정
-- CSRF 보호: 비활성화 (API 서버용)
-- Frame Options: 비활성화 (H2 콘솔용)
+- **JWT 토큰 기반 인증**: Bearer 토큰 방식
+- **비밀번호 암호화**: BCrypt 해싱
+- **CSRF 보호**: 비활성화 (JWT 기반 API 서버)
+- **CORS**: 설정 필요 (프론트엔드 도메인에 따라)
 
 ### 운영 환경 권장사항
-1. 환경변수를 통한 민감 정보 관리
-2. HTTPS 사용
-3. CSRF 보호 활성화 (웹 애플리케이션의 경우)
-4. H2 콘솔 비활성화
-5. JPA ddl-auto를 `validate` 또는 `none`으로 설정
-6. Flyway/Liquibase를 통한 DB 마이그레이션 관리
+1. **환경변수를 통한 민감 정보 관리**
+   - `JWT_SECRET`: 256비트 이상의 강력한 시크릿 키 설정
+   - 데이터베이스 비밀번호 강화
+2. **HTTPS 사용 필수**
+3. **JPA ddl-auto를 `validate` 또는 `none`으로 설정**
+4. **Flyway/Liquibase를 통한 DB 마이그레이션 관리**
+5. **H2 콘솔 비활성화** (운영 환경)
+6. **JWT 토큰 만료 시간 적절히 설정**
+7. **Rate Limiting 구현** (API 남용 방지)
 
 ## 문제 해결
 
@@ -177,8 +266,18 @@ src/main/java/com/example/onkoreabe/
 com.mysql.cj.jdbc.exceptions.CommunicationsException
 ```
 - MySQL이 실행 중인지 확인
-- 포트 번호 확인 (기본값: 3306)
+- 포트 번호 확인 (기본값: 3309)
 - 방화벽 설정 확인
+- Docker Compose로 MySQL 실행: `docker-compose up -d db`
+
+### JWT 인증 오류
+```
+401 Unauthorized
+```
+- JWT 토큰이 요청 헤더에 포함되어 있는지 확인
+- 헤더 형식: `Authorization: Bearer {token}`
+- 토큰이 만료되지 않았는지 확인 (기본 만료시간: 24시간)
+- `JWT_SECRET` 환경변수가 올바르게 설정되었는지 확인
 
 ### OAuth2 인증 오류
 ```
@@ -188,27 +287,32 @@ invalid_client
 - 리디렉션 URI가 정확히 등록되었는지 확인
 - 환경변수가 올바르게 설정되었는지 확인
 
-### AI 서버 연결 오류
-- Python AI 서버가 실행 중인지 확인
-- `http://localhost:5000/generate-answer` 엔드포인트 확인
-- Docker 환경에서는 `http://python-ai-service:5000` 사용
+### CSV 데이터 임포트 오류
+- `src/main/resources/data/` 디렉토리에 CSV 파일이 있는지 확인
+- CSV 파일 인코딩 확인 (UTF-8 권장)
+- 애플리케이션 시작 시 자동으로 데이터 임포트 실행
 
 ## 개발 상태
 
 ✅ 완료된 기능:
-- Google OAuth2 로그인
-- 사용자 관리
-- AI 챗봇 API
-- 에러 핸들링
-- 입력 검증
-- Swagger 문서화
+- 이메일/비밀번호 기반 회원가입 및 로그인
+- JWT 토큰 인증
+- Google OAuth2 소셜 로그인
+- 사용자 프로필 관리
+- 정착난이도 스코어맵 API
+- 카테고리별 점수 조회
+- 맞춤형 점수 계산
+- CSV 데이터 임포트
+- Swagger API 문서화
 
 ⚠️ TODO:
 - 단위 테스트 작성
 - 통합 테스트 작성
+- CORS 설정
+- Rate Limiting 구현
 - 로깅 개선
-- 성능 최적화
-- Python AI 서버 구현
+- 캐싱 전략 수립
+- API 응답 페이징 처리
 
 ## 라이선스
 
