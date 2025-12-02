@@ -5,6 +5,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.OAuthFlow;
+import io.swagger.v3.oas.models.security.OAuthFlows;
+import io.swagger.v3.oas.models.security.Scopes;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
@@ -47,7 +50,19 @@ public class SwaggerConfig {
                         - AI 챗봇 서비스
 
                         ## 인증 방법
-                        대부분의 API는 OAuth2 인증이 필요합니다.
+
+                        ### 1. JWT Bearer Token (권장)
+                        - `/api/v1/auth/login`으로 로그인하여 JWT 토큰 받기
+                        - 우측 상단 "Authorize" 버튼 → "bearerAuth" 선택
+                        - 받은 토큰을 입력하여 인증
+
+                        ### 2. OAuth2 (Google)
+                        - 브라우저에서 `/oauth2/authorization/google` 접속
+                        - Google 로그인 후 JWT 토큰 자동 발급
+                        - iOS 앱으로 토큰 전달 (onkorea://callback)
+
+                        **주의**: Swagger UI에서는 JWT Bearer Token 방식만 테스트 가능합니다.
+                        OAuth2는 브라우저를 통해 직접 테스트하세요.
                         """)
                 .version("v1.0.0")
                 .contact(new Contact()
@@ -65,28 +80,47 @@ public class SwaggerConfig {
         return List.of(
                 new Server()
                         .url("http://localhost:8080")
-                        .description("로컬 개발 서버"),
-                new Server()
-                        .url("https://api.onkorea.com")
-                        .description("운영 서버")
+                        .description("로컬 개발 서버")
         );
     }
 
     /**
-     * 보안 스킴 설정 (OAuth2)
+     * 보안 스킴 설정 (JWT Bearer + OAuth2)
      */
     private Components securityComponents() {
         return new Components()
+                // JWT Bearer Token 인증
+                .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("bearer")
+                        .bearerFormat("JWT")
+                        .in(SecurityScheme.In.HEADER)
+                        .name("Authorization")
+                        .description("JWT 토큰을 사용한 인증. 로그인 API(/api/v1/auth/login)를 통해 토큰을 받아 사용하세요.")
+                )
+                // OAuth2 인증 (문서화 목적)
                 .addSecuritySchemes("oauth2", new SecurityScheme()
                         .type(SecurityScheme.Type.OAUTH2)
-                        .description("Google OAuth2 인증")
-                        .name("oauth2"));
+                        .description("Google OAuth2 소셜 로그인. 브라우저에서 /oauth2/authorization/google로 접속하여 인증하세요.")
+                        .flows(new OAuthFlows()
+                                .authorizationCode(new OAuthFlow()
+                                        .authorizationUrl("http://localhost:8080/oauth2/authorization/google")
+                                        .tokenUrl("http://localhost:8080/login/oauth2/code/google")
+                                        .scopes(new Scopes()
+                                                .addString("profile", "사용자 프로필 정보")
+                                                .addString("email", "사용자 이메일")
+                                        )
+                                )
+                        )
+                );
     }
 
     /**
-     * 보안 요구사항
+     * 보안 요구사항 (JWT 또는 OAuth2)
      */
     private SecurityRequirement securityRequirement() {
-        return new SecurityRequirement().addList("oauth2");
+        return new SecurityRequirement()
+                .addList("bearerAuth")    // JWT 인증
+                .addList("oauth2");       // 또는 OAuth2 인증
     }
 }

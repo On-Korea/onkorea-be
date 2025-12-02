@@ -33,8 +33,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
+            // 0. 이미 인증된 사용자(OAuth2 등)는 스킵
+            if (SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+                log.debug("이미 인증된 사용자, JWT 필터 스킵");
+                filterChain.doFilter(request, response);
+                return;
+            }
+
             // 1. 요청 헤더에서 JWT 토큰 추출
             String jwt = getJwtFromRequest(request);
+            log.info("JWT from request = {}", jwt);
 
             // 2. 토큰 검증
             if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)) {
@@ -58,9 +68,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 log.debug("JWT 인증 성공: email={}, userId={}", email, userId);
             }
         } catch (Exception e) {
-            log.error("JWT 인증 필터에서 예외 발생", e);
+            log.warn("JWT 인증 실패: {} - {}", e.getClass().getSimpleName(), e.getMessage());
         }
 
+        // 필터 체인 계속 진행 (인증 실패 시에도 계속 진행 -> AuthenticationEntryPoint가 처리)
         filterChain.doFilter(request, response);
     }
 
@@ -72,9 +83,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      */
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
+        log.info("Authorization header = {}", bearerToken);
 
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+            String token = bearerToken.substring(7);
+            log.info("Parsed JWT = {}", token);
+            return token;
         }
 
         return null;
