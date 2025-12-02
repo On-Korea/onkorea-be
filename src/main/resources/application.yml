@@ -5,6 +5,15 @@ spring:
   profiles:
     active: local
 
+  # MVC 설정
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  # 정적 리소스 핸들링 비활성화 (REST API 서버이므로)
+  web:
+    resources:
+      add-mappings: false
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
@@ -64,3 +73,22 @@ swagger:
 jwt:
   secret: ${JWT_SECRET:your-secret-key-for-jwt-token-generation-must-be-at-least-256-bits-long}
   expiration: 86400000  # 24시간 (밀리초)
+
+# CORS 설정
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:5173}
+
+# 서버 에러 응답 설정
+server:
+  error:
+    # 에러 응답에 예외 클래스명 포함 여부
+    include-exception: false
+    # 에러 응답에 메시지 포함 여부 (always, never, on_param)
+    include-message: always
+    # 에러 응답에 스택트레이스 포함 여부 (always, never, on_param)
+    include-stacktrace: never
+    # 에러 응답에 바인딩 에러 포함 여부 (always, never, on_param)
+    include-binding-errors: always
+    # HTML 화이트라벨 에러 페이지 비활성화
+    whitelabel:
+      enabled: false
