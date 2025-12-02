@@ -48,8 +48,9 @@ public class User {
     private String providerId;
 
     @Builder
-    public User(String email, String password, String name, Role role, String language,
+    public User(Long id, String email, String password, String name, Role role, String language,
                 LocalDate birthday, LoginType loginType, String providerId) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
