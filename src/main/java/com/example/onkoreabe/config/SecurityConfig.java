@@ -5,6 +5,7 @@ import com.example.onkoreabe.auth.jwt.JwtAuthenticationFilter;
 import com.example.onkoreabe.global.security.JwtAccessDeniedHandler;
 import com.example.onkoreabe.global.security.JwtAuthenticationEntryPoint;
 import com.example.onkoreabe.global.security.OAuth2AuthenticationFailureHandler;
+import com.example.onkoreabe.global.security.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,7 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
     @Value("${cors.allowed-origins:http://localhost:3000,http://localhost:5173}")
     private String[] allowedOrigins;
@@ -88,9 +90,13 @@ public class SecurityConfig {
 
                 // OAuth2 로그인 (Google 등)
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/loginsuccess")
+                        // 로그인 성공 시 JWT 발급 후 iOS 앱으로 리다이렉트
+                        .successHandler(oAuth2AuthenticationSuccessHandler)
+                        // 로그인 실패 시 JSON 응답 반환
                         .failureHandler(oAuth2AuthenticationFailureHandler)
+                        // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때의 설정들을 담당
                         .userInfoEndpoint(userInfo -> userInfo
+                                // 소셜 로그인 성공 시 후속 조치를 진행할 UserService 인터페이스의 구현체 등록
                                 .userService(customOAuth2UserService)
                         )
                 );
