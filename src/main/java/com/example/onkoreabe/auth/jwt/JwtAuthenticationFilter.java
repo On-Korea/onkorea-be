@@ -58,9 +58,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 log.debug("JWT 인증 성공: email={}, userId={}", email, userId);
             }
         } catch (Exception e) {
-            log.error("JWT 인증 필터에서 예외 발생", e);
+            // JWT 토큰 검증 실패 시 로그 기록
+            // SecurityContext에 인증 정보가 설정되지 않아,
+            // 인증이 필요한 엔드포인트 접근 시 JwtAuthenticationEntryPoint가 JSON 응답 반환
+            log.warn("JWT 인증 실패: {} - {}", e.getClass().getSimpleName(), e.getMessage());
         }
 
+        // 필터 체인 계속 진행 (인증 실패 시에도 계속 진행 -> AuthenticationEntryPoint가 처리)
         filterChain.doFilter(request, response);
     }
 
