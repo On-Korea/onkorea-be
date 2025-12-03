@@ -59,6 +59,9 @@ public class SecurityConfig {
                         // 인증 없이 접근 가능한 경로
                         .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll()
 
+                        // Actuator Health Check (모니터링용)
+                        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
+
                         // 회원가입, 로그인 API는 인증 불필요
                         .requestMatchers("/api/v1/auth/**").permitAll()
 

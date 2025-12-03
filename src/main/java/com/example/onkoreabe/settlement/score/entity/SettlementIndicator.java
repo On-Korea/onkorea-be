@@ -54,14 +54,14 @@ public enum SettlementIndicator {
     // 복지 카테고리
     KINDERGARTENS("유치원 수", ScoreCategory.WELFARE, "유치원 수"),
     CHILDCARE_CENTERS("보육시설 수", ScoreCategory.WELFARE, "보육시설 수"),
-    HOSPITALS("병의원 수", ScoreCategory.WELFARE, "병의원 수 "),
+    HOSPITALS("병의원 수", ScoreCategory.WELFARE, "병의원 수"),
     PHARMACIES("약국 수", ScoreCategory.WELFARE, "약국 수"),
     VETERINARY_HOSPITALS("동물병원 수", ScoreCategory.WELFARE, "동물병원 수"),
     ELDERLY_WELFARE_FACILITIES("노인복지시설 수", ScoreCategory.WELFARE, "노인복지시설 수"),
     SOCIAL_WELFARE_FACILITIES("사회복지시설 수", ScoreCategory.WELFARE, "사회복지시설 수"),
     DISABLED_WELFARE_FACILITIES("장애인복지시설 수", ScoreCategory.WELFARE, "장애인복지시설 수"),
     SPORTS_FACILITIES("체육시설 수", ScoreCategory.WELFARE, "체육시설 수"),
-    CULTURAL_FACILITIES("문화시설 수", ScoreCategory.WELFARE, "문화시설 수 ");
+    CULTURAL_FACILITIES("문화시설 수", ScoreCategory.WELFARE, "문화시설 수");
 
     private final String displayName;
     private final ScoreCategory category;
