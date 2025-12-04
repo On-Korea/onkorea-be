@@ -92,3 +92,13 @@ server:
     # HTML 화이트라벨 에러 페이지 비활성화
     whitelabel:
       enabled: false
+
+# Actuator 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized
