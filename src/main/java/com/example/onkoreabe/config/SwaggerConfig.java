@@ -26,6 +26,9 @@ public class SwaggerConfig {
     @Value("${spring.application.name:onkorea-be}")
     private String applicationName;
 
+    @Value("${SERVER_URL:http://localhost:8080}")
+    private String serverUrl;
+
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
@@ -79,8 +82,8 @@ public class SwaggerConfig {
     private List<Server> servers() {
         return List.of(
                 new Server()
-                        .url("http://localhost:8080")
-                        .description("로컬 개발 서버")
+                        .url(serverUrl)
+                        .description("API Server")
         );
     }
 
@@ -104,8 +107,8 @@ public class SwaggerConfig {
                         .description("Google OAuth2 소셜 로그인. 브라우저에서 /oauth2/authorization/google로 접속하여 인증하세요.")
                         .flows(new OAuthFlows()
                                 .authorizationCode(new OAuthFlow()
-                                        .authorizationUrl("http://localhost:8080/oauth2/authorization/google")
-                                        .tokenUrl("http://localhost:8080/login/oauth2/code/google")
+                                        .authorizationUrl(serverUrl + "/oauth2/authorization/google")
+                                        .tokenUrl(serverUrl + "/login/oauth2/code/google")
                                         .scopes(new Scopes()
                                                 .addString("profile", "사용자 프로필 정보")
                                                 .addString("email", "사용자 이메일")
