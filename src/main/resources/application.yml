@@ -19,7 +19,7 @@ spring:
 
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3309}/${DB_NAME:onkorea_db}?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
     username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:my_root_password}
+    password: ${DB_PASSWORD:root_onkorea}
 
   security:
     oauth2:
@@ -39,7 +39,7 @@ spring:
       # update: 변경사항만 반영 (개발/테스트)
       # validate: 스키마 검증만 (운영)
       # none: 아무것도 안함 (운영 권장)
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:

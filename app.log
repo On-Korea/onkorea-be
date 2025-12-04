@@ -1,0 +1,534 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.6)
+
+2025-12-04T15:30:27.847+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.onkoreabe.OnkoreaBeApplication       : Starting OnkoreaBeApplication v0.0.1-SNAPSHOT using Java 17.0.15 with PID 82274 (/Users/jiwoo/IdeaProjects/onkorea-be/build/libs/onkorea-be-0.0.1-SNAPSHOT.jar started by jiwoo in /Users/jiwoo/IdeaProjects/onkorea-be)
+2025-12-04T15:30:27.848+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.onkoreabe.OnkoreaBeApplication       : The following 1 profile is active: "local"
+2025-12-04T15:30:28.195+09:00  INFO 82274 --- [onkorea-be] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-04T15:30:28.196+09:00  INFO 82274 --- [onkorea-be] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-12-04T15:30:28.208+09:00  INFO 82274 --- [onkorea-be] [           main] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.onkoreabe.settlement.rawdata.repository.DistrictRawDataRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-04T15:30:28.209+09:00  INFO 82274 --- [onkorea-be] [           main] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.onkoreabe.settlement.score.repository.DistrictScoreRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-04T15:30:28.209+09:00  INFO 82274 --- [onkorea-be] [           main] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.onkoreabe.user.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-04T15:30:28.209+09:00  INFO 82274 --- [onkorea-be] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2025-12-04T15:30:28.214+09:00  INFO 82274 --- [onkorea-be] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-04T15:30:28.214+09:00  INFO 82274 --- [onkorea-be] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-04T15:30:28.272+09:00  INFO 82274 --- [onkorea-be] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 3 JPA repository interfaces.
+2025-12-04T15:30:28.502+09:00  INFO 82274 --- [onkorea-be] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-04T15:30:28.509+09:00  INFO 82274 --- [onkorea-be] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-04T15:30:28.509+09:00  INFO 82274 --- [onkorea-be] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-12-04T15:30:28.523+09:00  INFO 82274 --- [onkorea-be] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-04T15:30:28.523+09:00  INFO 82274 --- [onkorea-be] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 659 ms
+2025-12-04T15:30:28.601+09:00  INFO 82274 --- [onkorea-be] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-04T15:30:28.622+09:00  INFO 82274 --- [onkorea-be] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.29.Final
+2025-12-04T15:30:28.635+09:00  INFO 82274 --- [onkorea-be] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-04T15:30:28.742+09:00  INFO 82274 --- [onkorea-be] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-04T15:30:28.753+09:00  INFO 82274 --- [onkorea-be] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-04T15:30:28.820+09:00  INFO 82274 --- [onkorea-be] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@40d10264
+2025-12-04T15:30:28.821+09:00  INFO 82274 --- [onkorea-be] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-04T15:30:28.855+09:00  INFO 82274 --- [onkorea-be] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.44
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-04T15:30:29.154+09:00  INFO 82274 --- [onkorea-be] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    drop table if exists district_raw_data
+Hibernate: 
+    drop table if exists district_scores
+Hibernate: 
+    drop table if exists users
+Hibernate: 
+    create table district_raw_data (
+        id bigint not null auto_increment,
+        district enum ('DOBONG','DONGDAEMUN','DONGJAK','EUNPYEONG','GANGBUK','GANGDONG','GANGNAM','GANGSEO','GEUMCHEON','GURO','GWANAK','GWANGJIN','JONGNO','JUNG','JUNGNANG','MAPO','NOWON','SEOCHO','SEODAEMUN','SEONGBUK','SEONGDONG','SONGPA','YANGCHEON','YEONGDEUNGPO','YONGSAN') not null,
+        raw_data json not null,
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    create table district_scores (
+        score float(53) not null,
+        id bigint not null auto_increment,
+        category enum ('CONVENIENCE','EDUCATION','HOUSING','POPULATION','SAFETY','WELFARE') not null,
+        district enum ('DOBONG','DONGDAEMUN','DONGJAK','EUNPYEONG','GANGBUK','GANGDONG','GANGNAM','GANGSEO','GEUMCHEON','GURO','GWANAK','GWANGJIN','JONGNO','JUNG','JUNGNANG','MAPO','NOWON','SEOCHO','SEODAEMUN','SEONGBUK','SEONGDONG','SONGPA','YANGCHEON','YEONGDEUNGPO','YONGSAN') not null,
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    create table users (
+        birthday date,
+        id bigint not null auto_increment,
+        email varchar(255) not null,
+        language varchar(255),
+        name varchar(255) not null,
+        password varchar(255),
+        provider_id varchar(255),
+        login_type enum ('EMAIL','GOOGLE') not null,
+        role enum ('GUEST','USER') not null,
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    alter table district_raw_data 
+       add constraint UKojeus3bta33lrtlyei6lvlo29 unique (district)
+Hibernate: 
+    alter table district_scores 
+       add constraint UKrrrfvyavr9x282h5401wovom7 unique (district, category)
+Hibernate: 
+    alter table users 
+       add constraint UK6dotkott2kjsp8vw4d0m25fb7 unique (email)
+Hibernate: 
+    alter table users 
+       add constraint UK6jdo1l976be85wv43w6x6e6x2 unique (provider_id)
+2025-12-04T15:30:29.224+09:00  INFO 82274 --- [onkorea-be] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+Hibernate: 
+    select
+        count(*) 
+    from
+        district_raw_data drd1_0
+2025-12-04T15:30:29.509+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : ==============================================
+2025-12-04T15:30:29.509+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 없음 - CSV 자동 임포트 시작
+2025-12-04T15:30:29.509+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : ==============================================
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.569+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 강남구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.574+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 강동구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.579+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 강북구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.584+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 강서구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.589+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 관악구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.598+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 광진구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.603+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 구로구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.607+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 금천구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.612+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 노원구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.616+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 도봉구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.621+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 동대문구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.625+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 동작구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.630+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 마포구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.634+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 서대문구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.637+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 서초구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.644+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 성동구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.653+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 성북구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.658+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 송파구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.662+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 양천구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.665+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 영등포구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.668+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 용산구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.672+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 은평구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.675+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 종로구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.679+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 중구 (40 개 지표)
+Hibernate: 
+    select
+        drd1_0.id,
+        drd1_0.district,
+        drd1_0.raw_data 
+    from
+        district_raw_data drd1_0 
+    where
+        drd1_0.district=?
+Hibernate: 
+    insert 
+    into
+        district_raw_data
+        (district, raw_data) 
+    values
+        (?, cast(? as json))
+2025-12-04T15:30:29.682+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : 원시 데이터 저장 완료: 중랑구 (40 개 지표)
+2025-12-04T15:30:29.682+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : ==============================================
+Hibernate: 
+    select
+        count(*) 
+    from
+        district_raw_data drd1_0
+2025-12-04T15:30:29.684+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : CSV 자동 임포트 완료 - 25 개 자치구 데이터 저장됨
+2025-12-04T15:30:29.685+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.o.s.r.service.RawDataImportService   : ==============================================
+2025-12-04T15:30:29.740+09:00  WARN 82274 --- [onkorea-be] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-04T15:30:29.963+09:00  INFO 82274 --- [onkorea-be] [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3309/onkorea_db?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true'
+2025-12-04T15:30:30.010+09:00  INFO 82274 --- [onkorea-be] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-04T15:30:30.019+09:00  INFO 82274 --- [onkorea-be] [           main] c.e.onkoreabe.OnkoreaBeApplication       : Started OnkoreaBeApplication in 2.364 seconds (process running for 2.565)

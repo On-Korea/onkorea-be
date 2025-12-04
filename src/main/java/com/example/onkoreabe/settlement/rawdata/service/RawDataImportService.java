@@ -182,7 +182,9 @@ public class RawDataImportService {
 
                 // 나머지 컬럼들을 Map에 저장
                 for (int i = 1; i < Math.min(headers.length, values.length); i++) {
-                    String columnName = headers[i].trim();
+                    String columnName = headers[i].trim()
+                            .replace("\u00A0", "")  // non-breaking space 제거
+                            .trim();  // 다시 한 번 trim
                     String value = values[i].trim();
                     rowData.put(columnName, value);
                 }

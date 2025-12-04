@@ -44,7 +44,8 @@ public class CustomScoreCalculator {
      */
     private double calculateIndicatorScore(SettlementIndicator indicator, Map<String, String> rawData) {
         String csvColumn = indicator.getCsvColumnName();
-        double rawValue = parseDouble(rawData.get(csvColumn));
+        String rawValueStr = rawData.get(csvColumn);
+        double rawValue = parseDouble(rawValueStr);
 
         // 지표별 점수 계산 로직
         switch (indicator) {
